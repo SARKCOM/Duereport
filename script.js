@@ -115,6 +115,23 @@ function displayResults(results, columnIndex) {
         paymentHistoryLine.style.fontWeight = 'bold';
         resultsDiv.appendChild(paymentHistoryLine);
 
+        // Add "Date of Payment" and "Amount Paid" text
+        const paymentInfoDiv = document.createElement('div');
+        paymentInfoDiv.style.display = 'flex';
+        paymentInfoDiv.style.justifyContent = 'space-between';
+
+        const dateOfPayment = document.createElement('div');
+        dateOfPayment.textContent = 'Date of Payment';
+        dateOfPayment.style.fontWeight = 'bold';
+
+        const amountPaid = document.createElement('div');
+        amountPaid.textContent = 'Amount Paid';
+        amountPaid.style.fontWeight = 'bold';
+
+        paymentInfoDiv.appendChild(dateOfPayment);
+        paymentInfoDiv.appendChild(amountPaid);
+        resultsDiv.appendChild(paymentInfoDiv);
+
         // Create vertical table for the remaining columns
         const verticalTable = document.createElement('table');
         const verticalTbody = document.createElement('tbody');
