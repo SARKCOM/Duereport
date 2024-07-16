@@ -77,18 +77,57 @@ function displayResults(results, columnIndex) {
     }
 
     results.forEach(result => {
-        const table = document.createElement('table');
-        const tbody = document.createElement('tbody');
+        const horizontalTable = document.createElement('table');
+        const horizontalThead = document.createElement('thead');
+        const horizontalTbody = document.createElement('tbody');
+        const headerRow = document.createElement('tr');
+        const dataRow = document.createElement('tr');
 
-        result.forEach((cell, index) => {
+        // Create header row and data row for the first 10 columns
+        result.slice(0, 10).forEach((cell, index) => {
+            const th = document.createElement('th');
+            const td = document.createElement('td');
+
+            th.textContent = excelData[0][index];
+
+            if (index === columnIndex && typeof cell === 'number' && isExcelDate(cell)) {
+                td.textContent = convertExcelDate(cell);
+            } else {
+                td.textContent = cell;
+            }
+
+            headerRow.appendChild(th);
+            dataRow.appendChild(td);
+        });
+
+        horizontalThead.appendChild(headerRow);
+        horizontalTbody.appendChild(dataRow);
+        horizontalTable.appendChild(horizontalThead);
+        horizontalTable.appendChild(horizontalTbody);
+
+        resultsDiv.appendChild(horizontalTable);
+
+        // Add "Payment History" line
+        const paymentHistoryLine = document.createElement('div');
+        paymentHistoryLine.textContent = 'Payment History';
+        paymentHistoryLine.style.marginTop = '10px';
+        paymentHistoryLine.style.marginBottom = '10px';
+        paymentHistoryLine.style.fontWeight = 'bold';
+        resultsDiv.appendChild(paymentHistoryLine);
+
+        // Create vertical table for the remaining columns
+        const verticalTable = document.createElement('table');
+        const verticalTbody = document.createElement('tbody');
+
+        result.slice(10).forEach((cell, index) => {
             if (cell !== "" && cell !== undefined) { // Exclude blank cells
                 const row = document.createElement('tr');
                 const th = document.createElement('th');
                 const td = document.createElement('td');
 
-                th.textContent = excelData[0][index];
+                th.textContent = excelData[0][index + 10];
 
-                if (index === columnIndex && typeof cell === 'number' && isExcelDate(cell)) {
+                if ((index + 10) === columnIndex && typeof cell === 'number' && isExcelDate(cell)) {
                     td.textContent = convertExcelDate(cell);
                 } else {
                     td.textContent = cell;
@@ -96,12 +135,12 @@ function displayResults(results, columnIndex) {
 
                 row.appendChild(th);
                 row.appendChild(td);
-                tbody.appendChild(row);
+                verticalTbody.appendChild(row);
             }
         });
 
-        table.appendChild(tbody);
-        resultsDiv.appendChild(table);
+        verticalTable.appendChild(verticalTbody);
+        resultsDiv.appendChild(verticalTable);
     });
 }
 
