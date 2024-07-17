@@ -25,6 +25,9 @@
         }
         .results {
             margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         #password-container {
             margin: 20px;
@@ -52,7 +55,7 @@
         }
         button {
             padding: 10px 20px;
-            background-color: #008080; /* Teal button color */
+            background-color: #4A219B; /* Teal button color */
             color: #fff; /* White text */
             border: none;
             border-radius: 4px;
@@ -81,11 +84,29 @@
             text-align: left;
         }
         th {
-            background-color: #008080; /* Navy blue header */
+            background-color: ##1DA2B4; /* Navy blue header */
             color: white;
         }
         tr:nth-child(even) {
-            background-color: #f2f2f2; /* Light gray background for even rows */
+            background-color: #E7E482; /* Light gray background for even rows */
+        }
+        .payment-history {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+        .payment-details {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .payment-details div {
+            flex: 1;
+            text-align: center;
         }
     </style>
 </head>
@@ -94,14 +115,14 @@
         <h1>Jamnalal Parekh Finance Pvt. Ltd</h1>
         <h2>Leading Financial Solutions Provider</h2>
         <p>Your trusted partner for all financial needs.</p>
-        <p>Creator - Sapan Shrivastava.</p>
+        <p>Created by - Sapan Shrivastava.</p>
         <input type="password" id="password-input" placeholder="Password">
         <button onclick="checkPassword()">Submit</button>
     </div>
     <div class="container" id="main-container">
         <h1>Jamnalal Parekh Finance Pvt. Ltd</h1>
-        <h2>Paraswanath Chowk, Jagdalpur, Mob- 8718900100</h2>
-        <p>Data Updated till 6 July 2024</p>
+        <h2>To Search Customer details</h2>
+        <p>Please select the search data you require</p>
         <div class="search-container">
             <select id="column-select"></select>
             <input type="text" id="search-input" placeholder="Search...">

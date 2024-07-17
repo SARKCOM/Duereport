@@ -77,23 +77,63 @@ function displayResults(results) {
     }
 
     results.forEach(result => {
-        const table = document.createElement('table');
-        const tbody = document.createElement('tbody');
+        const table1 = document.createElement('table');
+        const table2 = document.createElement('table');
+        const tbody1 = document.createElement('tbody');
+        const tbody2 = document.createElement('tbody');
 
-        result.forEach((cell, index) => {
-            const row = document.createElement('tr');
-            const th = document.createElement('th');
-            const td = document.createElement('td');
+        for (let i = 0; i < 5; i++) {
+            if (result[i] !== undefined) {
+                const row = document.createElement('tr');
+                const th = document.createElement('th');
+                const td = document.createElement('td');
 
-            th.textContent = excelData[0][index];
-            td.textContent = cell;
+                th.textContent = excelData[0][i];
+                td.textContent = result[i];
 
-            row.appendChild(th);
-            row.appendChild(td);
-            tbody.appendChild(row);
-        });
+                row.appendChild(th);
+                row.appendChild(td);
+                tbody1.appendChild(row);
+            }
+        }
 
-        table.appendChild(tbody);
-        resultsDiv.appendChild(table);
+        for (let i = 5; i < 10; i++) {
+            if (result[i] !== undefined) {
+                const row = document.createElement('tr');
+                const th = document.createElement('th');
+                const td = document.createElement('td');
+
+                th.textContent = excelData[0][i];
+                td.textContent = result[i];
+
+                row.appendChild(th);
+                row.appendChild(td);
+                tbody2.appendChild(row);
+            }
+        }
+
+        table1.appendChild(tbody1);
+        table2.appendChild(tbody2);
+
+        resultsDiv.appendChild(table1);
+
+        const paymentHistoryDiv = document.createElement('div');
+        paymentHistoryDiv.classList.add('payment-history');
+        paymentHistoryDiv.textContent = 'Payment History';
+        resultsDiv.appendChild(paymentHistoryDiv);
+
+        const paymentDetailsDiv = document.createElement('div');
+        paymentDetailsDiv.classList.add('payment-details');
+
+        const dateDiv = document.createElement('div');
+        dateDiv.textContent = 'Date';
+        paymentDetailsDiv.appendChild(dateDiv);
+
+        const amountPaidDiv = document.createElement('div');
+        amountPaidDiv.textContent = 'Amount Paid';
+        paymentDetailsDiv.appendChild(amountPaidDiv);
+
+        resultsDiv.appendChild(paymentDetailsDiv);
+        resultsDiv.appendChild(table2);
     });
 }
