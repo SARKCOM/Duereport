@@ -110,23 +110,18 @@ function displayResults(results, columnIndex) {
         // Add "Payment History" line
         const paymentHistoryLine = document.createElement('div');
         paymentHistoryLine.textContent = 'Payment History';
-        paymentHistoryLine.style.marginTop = '10px';
-        paymentHistoryLine.style.marginBottom = '10px';
-        paymentHistoryLine.style.fontWeight = 'bold';
+        paymentHistoryLine.className = 'payment-history';
         resultsDiv.appendChild(paymentHistoryLine);
 
         // Add "Date of Payment" and "Amount Paid" text
         const paymentInfoDiv = document.createElement('div');
-        paymentInfoDiv.style.display = 'flex';
-        paymentInfoDiv.style.justifyContent = 'space-between';
+        paymentInfoDiv.className = 'payment-info';
 
         const dateOfPayment = document.createElement('div');
         dateOfPayment.textContent = 'Date of Payment';
-        dateOfPayment.style.fontWeight = 'bold';
 
         const amountPaid = document.createElement('div');
         amountPaid.textContent = 'Amount Paid';
-        amountPaid.style.fontWeight = 'bold';
 
         paymentInfoDiv.appendChild(dateOfPayment);
         paymentInfoDiv.appendChild(amountPaid);
