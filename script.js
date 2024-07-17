@@ -37,14 +37,14 @@ function populateColumnSelect() {
     const columnSelect = document.getElementById('column-select');
     const headers = excelData[0];
 
-    headers.slice(0, 10).forEach((header, index) => {
+    headers.forEach((header, index) => {
         const option = document.createElement('option');
         option.value = index;
         option.textContent = header;
         columnSelect.appendChild(option);
     });
 
-    console.log('Headers:', headers.slice(0, 10)); // Debugging
+    console.log('Headers:', headers); // Debugging
 }
 
 function searchData() {
@@ -64,10 +64,10 @@ function searchData() {
     });
 
     console.log('Search Results:', results); // Debugging
-    displayResults(results, columnIndex);
+    displayResults(results);
 }
 
-function displayResults(results, columnIndex) {
+function displayResults(results) {
     const resultsDiv = document.getElementById('results');
     resultsDiv.innerHTML = '';
 
@@ -77,94 +77,23 @@ function displayResults(results, columnIndex) {
     }
 
     results.forEach(result => {
-        const horizontalTable = document.createElement('table');
-        const horizontalThead = document.createElement('thead');
-        const horizontalTbody = document.createElement('tbody');
-        const headerRow = document.createElement('tr');
-        const dataRow = document.createElement('tr');
+        const table = document.createElement('table');
+        const tbody = document.createElement('tbody');
 
-        // Create header row and data row for the first 10 columns
-        result.slice(0, 10).forEach((cell, index) => {
+        result.forEach((cell, index) => {
+            const row = document.createElement('tr');
             const th = document.createElement('th');
             const td = document.createElement('td');
 
             th.textContent = excelData[0][index];
+            td.textContent = cell;
 
-            if (index === columnIndex && typeof cell === 'number' && isExcelDate(cell)) {
-                td.textContent = convertExcelDate(cell);
-            } else {
-                td.textContent = cell;
-            }
-
-            headerRow.appendChild(th);
-            dataRow.appendChild(td);
+            row.appendChild(th);
+            row.appendChild(td);
+            tbody.appendChild(row);
         });
 
-        horizontalThead.appendChild(headerRow);
-        horizontalTbody.appendChild(dataRow);
-        horizontalTable.appendChild(horizontalThead);
-        horizontalTable.appendChild(horizontalTbody);
-
-        resultsDiv.appendChild(horizontalTable);
-
-        // Add "Payment History" line
-        const paymentHistoryLine = document.createElement('div');
-        paymentHistoryLine.textContent = 'Payment History';
-        paymentHistoryLine.className = 'payment-history';
-        resultsDiv.appendChild(paymentHistoryLine);
-
-        // Add "Date of Payment" and "Amount Paid" text
-        const paymentInfoDiv = document.createElement('div');
-        paymentInfoDiv.className = 'payment-info';
-
-        const dateOfPayment = document.createElement('div');
-        dateOfPayment.textContent = 'Date of Payment';
-
-        const amountPaid = document.createElement('div');
-        amountPaid.textContent = 'Amount Paid';
-
-        paymentInfoDiv.appendChild(dateOfPayment);
-        paymentInfoDiv.appendChild(amountPaid);
-        resultsDiv.appendChild(paymentInfoDiv);
-
-        // Create vertical table for the remaining columns
-        const verticalTable = document.createElement('table');
-        const verticalTbody = document.createElement('tbody');
-
-        result.slice(10).forEach((cell, index) => {
-            if (cell !== "" && cell !== undefined) { // Exclude blank cells
-                const row = document.createElement('tr');
-                const th = document.createElement('th');
-                const td = document.createElement('td');
-
-                th.textContent = excelData[0][index + 10];
-
-                if ((index + 10) === columnIndex && typeof cell === 'number' && isExcelDate(cell)) {
-                    td.textContent = convertExcelDate(cell);
-                } else {
-                    td.textContent = cell;
-                }
-
-                row.appendChild(th);
-                row.appendChild(td);
-                verticalTbody.appendChild(row);
-            }
-        });
-
-        verticalTable.appendChild(verticalTbody);
-        resultsDiv.appendChild(verticalTable);
+        table.appendChild(tbody);
+        resultsDiv.appendChild(table);
     });
 }
-
-function isExcelDate(value) {
-    return value > 25569; // January 1, 1970, in Excel date serial number
-}
-
-function convertExcelDate(excelSerial) {
-    const excelEpoch = new Date(1899, 11, 30); // Excel incorrectly treats 1900 as a leap year
-    const msPerDay = 24 * 60 * 60 * 1000;
-    const jsDate = new Date(excelEpoch.getTime() + excelSerial * msPerDay);
-    return jsDate.toLocaleDateString(); // Format date as needed
-}
-
-document.getElementById('search-button').addEventListener('click', searchData);
