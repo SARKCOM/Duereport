@@ -77,75 +77,45 @@ function displayResults(results) {
     }
 
     results.forEach(result => {
+        // First table with the first 5 columns
         const table1 = document.createElement('table');
         const tbody1 = document.createElement('tbody');
-        const headerRow1 = document.createElement('tr');
-        const dataRow1 = document.createElement('tr');
 
+        for (let i = 0; i < 5 && i < result.length; i++) {
+            const row = document.createElement('tr');
+            const th = document.createElement('th');
+            const td = document.createElement('td');
+
+            th.textContent = excelData[0][i];
+            td.textContent = result[i];
+
+            row.appendChild(th);
+            row.appendChild(td);
+            tbody1.appendChild(row);
+        }
+
+        table1.appendChild(tbody1);
+        resultsDiv.appendChild(table1);
+
+        // Second table with the next 5 columns
         const table2 = document.createElement('table');
         const tbody2 = document.createElement('tbody');
-        const headerRow2 = document.createElement('tr');
-        const dataRow2 = document.createElement('tr');
 
-        const table3 = document.createElement('table');
-        const tbody3 = document.createElement('tbody');
+        for (let i = 5; i < 10 && i < result.length; i++) {
+            const row = document.createElement('tr');
+            const th = document.createElement('th');
+            const td = document.createElement('td');
 
-        // First 5 columns
-        for (let i = 0; i < 5; i++) {
-            if (result[i] !== undefined && result[i] !== null && result[i].toString().trim() !== '') {
-                const th = document.createElement('th');
-                th.textContent = excelData[0][i];
-                headerRow1.appendChild(th);
+            th.textContent = excelData[0][i];
+            td.textContent = result[i];
 
-                const td = document.createElement('td');
-                td.textContent = result[i];
-                dataRow1.appendChild(td);
-            }
+            row.appendChild(th);
+            row.appendChild(td);
+            tbody2.appendChild(row);
         }
 
-        // Next 5 columns
-        for (let i = 5; i < 10; i++) {
-            if (result[i] !== undefined && result[i] !== null && result[i].toString().trim() !== '') {
-                const th = document.createElement('th');
-                th.textContent = excelData[0][i];
-                headerRow2.appendChild(th);
-
-                const td = document.createElement('td');
-                td.textContent = result[i];
-                dataRow2.appendChild(td);
-            }
-        }
-
-        // Remaining columns
-        for (let i = 10; i < result.length; i++) {
-            if (result[i] !== undefined && result[i] !== null && result[i].toString().trim() !== '') {
-                const row = document.createElement('tr');
-
-                const th = document.createElement('th');
-                th.textContent = excelData[0][i];
-                row.appendChild(th);
-
-                const td = document.createElement('td');
-                td.textContent = result[i];
-                row.appendChild(td);
-
-                tbody3.appendChild(row);
-            }
-        }
-
-        tbody1.appendChild(headerRow1);
-        tbody1.appendChild(dataRow1);
-        table1.appendChild(tbody1);
-
-        tbody2.appendChild(headerRow2);
-        tbody2.appendChild(dataRow2);
         table2.appendChild(tbody2);
-
-        table3.appendChild(tbody3);
-
-        resultsDiv.appendChild(table1);
         resultsDiv.appendChild(table2);
-        resultsDiv.appendChild(table3);
     });
 }
 
