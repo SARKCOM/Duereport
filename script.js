@@ -37,14 +37,14 @@ function populateColumnSelect() {
     const columnSelect = document.getElementById('column-select');
     const headers = excelData[0];
 
-    headers.forEach((header, index) => {
+    headers.slice(0, 10).forEach((header, index) => {
         const option = document.createElement('option');
         option.value = index;
         option.textContent = header;
         columnSelect.appendChild(option);
     });
 
-    console.log('Headers:', headers); // Debugging
+    console.log('Headers:', headers.slice(0, 10)); // Debugging
 }
 
 function searchData() {
@@ -64,10 +64,10 @@ function searchData() {
     });
 
     console.log('Search Results:', results); // Debugging
-    displayResults(results);
+    displayResults(results, columnIndex);
 }
 
-function displayResults(results) {
+function displayResults(results, columnIndex) {
     const resultsDiv = document.getElementById('results');
     resultsDiv.innerHTML = '';
 
@@ -77,46 +77,43 @@ function displayResults(results) {
     }
 
     results.forEach(result => {
-        // First table with the first 5 columns
-        const table1 = document.createElement('table');
-        const tbody1 = document.createElement('tbody');
+        const table = document.createElement('table');
+        const tbody = document.createElement('tbody');
 
-        for (let i = 0; i < 5 && i < result.length; i++) {
-            const row = document.createElement('tr');
-            const th = document.createElement('th');
-            const td = document.createElement('td');
+        result.forEach((cell, index) => {
+            if (cell !== "" && cell !== undefined) { // Exclude blank cells
+                const row = document.createElement('tr');
+                const th = document.createElement('th');
+                const td = document.createElement('td');
 
-            th.textContent = excelData[0][i];
-            td.textContent = result[i];
+                th.textContent = excelData[0][index];
 
-            row.appendChild(th);
-            row.appendChild(td);
-            tbody1.appendChild(row);
-        }
+                if (index === columnIndex && typeof cell === 'number' && isExcelDate(cell)) {
+                    td.textContent = convertExcelDate(cell);
+                } else {
+                    td.textContent = cell;
+                }
 
-        table1.appendChild(tbody1);
-        resultsDiv.appendChild(table1);
+                row.appendChild(th);
+                row.appendChild(td);
+                tbody.appendChild(row);
+            }
+        });
 
-        // Second table with the next 5 columns
-        const table2 = document.createElement('table');
-        const tbody2 = document.createElement('tbody');
-
-        for (let i = 5; i < 10 && i < result.length; i++) {
-            const row = document.createElement('tr');
-            const th = document.createElement('th');
-            const td = document.createElement('td');
-
-            th.textContent = excelData[0][i];
-            td.textContent = result[i];
-
-            row.appendChild(th);
-            row.appendChild(td);
-            tbody2.appendChild(row);
-        }
-
-        table2.appendChild(tbody2);
-        resultsDiv.appendChild(table2);
+        table.appendChild(tbody);
+        resultsDiv.appendChild(table);
     });
 }
 
-document.addEventListener('DOMContentLoaded', loadExcelData);
+function isExcelDate(value) {
+    return value > 25569; // January 1, 1970, in Excel date serial number
+}
+
+function convertExcelDate(excelSerial) {
+    const excelEpoch = new Date(1899, 11, 30); // Excel incorrectly treats 1900 as a leap year
+    const msPerDay = 24 * 60 * 60 * 1000;
+    const jsDate = new Date(excelEpoch.getTime() + excelSerial * msPerDay);
+    return jsDate.toLocaleDateString(); // Format date as needed
+}
+
+document.getElementById('search-button').addEventListener('click', searchData);
