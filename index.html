@@ -4,27 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jamnalal Parekh Finance Pvt. Ltd</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f0f8ff;
-            color: #333;
+            font-family: Arial, sans-serif;
+            background-color: #87ceeb; /* Sky blue background */
+            color: #333; /* Dark gray text */
             margin: 0;
             padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
         }
         .container {
-            display: none;
-            background-color: #fff;
+            margin: 20px;
+            display: none; /* Hide the container initially */
+            background-color: #fff; /* White background */
             padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            width: 90%;
-            max-width: 600px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Soft shadow */
         }
         .search-container {
             margin-bottom: 20px;
@@ -33,41 +27,41 @@
             margin-top: 20px;
         }
         #password-container {
+            margin: 20px;
             background-color: #fff;
             padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
             text-align: center;
-            width: 90%;
-            max-width: 400px;
         }
-        h1, h2, p {
-            color: #555;
+        h1 {
+            color: #0000ff; /* Blue color for company name */
+        }
+        h2, p {
+            color: #555; /* Dark gray text */
         }
         input[type="password"],
         input[type="text"] {
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 4px;
-            width: calc(100% - 22px);
-            margin-top: 10px;
+            width: 200px;
+            margin-right: 10px;
             font-size: 14px;
             outline: none;
         }
         button {
             padding: 10px 20px;
-            background-color: #008080;
-            color: #fff;
+            background-color: #008080; /* Teal button color */
+            color: #fff; /* White text */
             border: none;
             border-radius: 4px;
             cursor: pointer;
             font-size: 14px;
             transition: background-color 0.3s ease;
-            margin-top: 10px;
-            width: calc(100% - 22px);
         }
         button:hover {
-            background-color: #005555;
+            background-color: #005555; /* Darker teal on hover */
         }
         select {
             padding: 10px;
@@ -75,8 +69,6 @@
             border: 1px solid #ccc;
             border-radius: 4px;
             outline: none;
-            width: calc(100% - 22px);
-            margin-top: 10px;
         }
         table {
             width: 100%;
@@ -89,11 +81,11 @@
             text-align: left;
         }
         th {
-            background-color: #008080;
+            background-color: #008080; /* Navy blue header */
             color: white;
         }
         tr:nth-child(even) {
-            background-color: #f2f2f2;
+            background-color: #f2f2f2; /* Light gray background for even rows */
         }
     </style>
 </head>
@@ -102,17 +94,18 @@
         <h1>Jamnalal Parekh Finance Pvt. Ltd</h1>
         <h2>Leading Financial Solutions Provider</h2>
         <p>Your trusted partner for all financial needs.</p>
-        <p>Created by - Sapan Shrivastava.</p>
+        <p>Creator - Sapan Shrivastava.</p>
         <input type="password" id="password-input" placeholder="Password">
         <button onclick="checkPassword()">Submit</button>
     </div>
     <div class="container" id="main-container">
         <h1>Jamnalal Parekh Finance Pvt. Ltd</h1>
-        <h2>To Search Customer details</h2>
-        <p>Please select the search data you require</p>
+        <h2>Paraswanath Chowk, Jagdalpur, Mob- 8718900100</h2>
+        <p>Data Updated till 6 July 2024</p>
         <div class="search-container">
             <select id="column-select"></select>
-            <input type="text" id="search-input" placeholder="Search..." oninput="searchData()">
+            <input type="text" id="search-input" placeholder="Search...">
+            <button onclick="searchData()">Search</button>
         </div>
         <div class="results" id="results"></div>
     </div>
