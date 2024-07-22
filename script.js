@@ -77,48 +77,35 @@ function displayResults(results, columnIndex) {
     }
 
     results.forEach(result => {
-        // First table with the first 5 columns
-        const table1 = document.createElement('table');
-        const tbody1 = document.createElement('tbody');
+        const horizontalTable = document.createElement('table');
+        const horizontalThead = document.createElement('thead');
+        const horizontalTbody = document.createElement('tbody');
+        const headerRow = document.createElement('tr');
+        const dataRow = document.createElement('tr');
 
-        for (let i = 0; i < 5 && i < result.length; i++) {
-            const row = document.createElement('tr');
+        // Create header row and data row for the first 10 columns
+        result.slice(0, 10).forEach((cell, index) => {
             const th = document.createElement('th');
             const td = document.createElement('td');
 
-            th.textContent = excelData[0][i];
-            td.textContent = result[i];
+            th.textContent = excelData[0][index];
 
-            row.appendChild(th);
-            row.appendChild(td);
-            tbody1.appendChild(row);
-        }
+            if (index === columnIndex && typeof cell === 'number' && isExcelDate(cell)) {
+                td.textContent = convertExcelDate(cell);
+            } else {
+                td.textContent = cell;
+            }
 
-        table1.appendChild(tbody1);
-        resultsDiv.appendChild(table1);
+            headerRow.appendChild(th);
+            dataRow.appendChild(td);
+        });
 
-        // Second table with the next 5 columns
-        const table2 = document.createElement('table');
-        const tbody2 = document.createElement('tbody');
+        horizontalThead.appendChild(headerRow);
+        horizontalTbody.appendChild(dataRow);
+        horizontalTable.appendChild(horizontalThead);
+        horizontalTable.appendChild(horizontalTbody);
 
-        for (let i = 5; i < 10 && i < result.length; i++) {
-            const row = document.createElement('tr');
-            const th = document.createElement('th');
-            const td = document.createElement('td');
-
-            th.textContent = excelData[0][i];
-            td.textContent = result[i];
-
-            row.appendChild(th);
-            row.appendChild(td);
-            tbody2.appendChild(row);
-        }
-
-        table2.appendChild(tbody2);
-        resultsDiv.appendChild(table2);
-    });;
-
-        
+        resultsDiv.appendChild(horizontalTable);
 
         // Add "Payment History" line
         const paymentHistoryLine = document.createElement('div');
@@ -186,3 +173,15 @@ function convertExcelDate(excelSerial) {
 }
 
 document.getElementById('search-button').addEventListener('click', searchData);
+const apiKey = 'YOUR_API_KEY';
+const city = 'London';
+const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`;
+
+fetch(url)
+  .then(response => response.json())
+  .then(data => {
+    console.log(data);
+    document.getElementById('weather').innerText = `Temperature: ${data.main.temp}°C`;
+  })
+  .catch(error => console.error('Error:', error));
+
